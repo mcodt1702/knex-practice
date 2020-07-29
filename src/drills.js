@@ -6,45 +6,74 @@ const knexInstance = knex({
   connection: process.env.DB_URL,
 });
 
-function drillone(searchterm) {
+// function all() {
+//   knexInstance
+//     .select("*")
+//     .from("shopping_list")
+//     .then((result) => {
+//       console.log(result);
+//     });
+// }
+
+// all();
+
+// function drillone(searchterm) {
+//   knexInstance
+//     .select("*")
+//     .from("shopping_list")
+//     .where("name", "ILIKE", `%${searchterm}%`)
+//     .then((result) => {
+//       console.log(result);
+//     });
+// }
+
+// drillone("sandwich");
+
+function prodspage(page) {
+  const limit = 6;
+  const offset = limit * (page - 1);
+
   knexInstance
     .select("*")
     .from("shopping_list")
-    .where("name", "ILIKE", `%${searchterm}%`)
-    .then((result) => {
-      console.log(result);
-    });
-}
-
-drillone("salad");
-
-function prodspage(pagenumber) {
-  const productsPerPage = pagenumber;
-  const offset = productsPerPage * (pagenumber - 1);
-
-  knexInstance
-    .select("*")
-    .from("shopping_list")
-    .limit(productsPerPage)
+    .limit(limit)
     .offset(offset)
     .then((result) => {
-      console.log("page", { productsPerPage });
+      console.log("page", { page });
       console.log(result);
     });
 }
 
-prodspage(6);
+prodspage(2);
 
-function costPerCategory() {
+function itemsAfterDate(daysAgo) {
   knexInstance
-    .select("category")
-    .sum("price as total")
+    .select("*")
+
     .from("shopping_list")
-    .groupBy("category")
+    .where(
+      "date_added",
+      ">",
+      knexInstance.raw(`now() - '?? days'::INTERVAL`, daysAgo)
+    )
+
     .then((result) => {
-      console.log("COST PER CATEGORY");
       console.log(result);
     });
 }
 
-costPerCategory();
+itemsAfterDate("15");
+
+// function costPerCategory() {
+//   knexInstance
+//     .select("category")
+//     .sum("price as total")
+//     .from("shopping_list")
+//     .groupBy("category")
+//     .then((result) => {
+//       console.log("COST PER CATEGORY");
+//       console.log(result);
+//     });
+// }
+
+// costPerCategory();
