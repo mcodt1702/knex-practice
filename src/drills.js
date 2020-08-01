@@ -27,53 +27,53 @@ const knexInstance = knex({
 //     });
 // }
 
-// drillone("sandwich");
+// // drillone("sandwich");
 
-function prodspage(page) {
-  const limit = 6;
-  const offset = limit * (page - 1);
+// function prodspage(page) {
+//   const limit = 6;
+//   const offset = limit * (page - 1);
 
-  knexInstance
-    .select("*")
-    .from("shopping_list")
-    .limit(limit)
-    .offset(offset)
-    .then((result) => {
-      console.log("page", { page });
-      console.log(result);
-    });
-}
-
-prodspage(2);
-
-function itemsAfterDate(daysAgo) {
-  knexInstance
-    .select("*")
-
-    .from("shopping_list")
-    .where(
-      "date_added",
-      ">",
-      knexInstance.raw(`now() - '?? days'::INTERVAL`, daysAgo)
-    )
-
-    .then((result) => {
-      console.log(result);
-    });
-}
-
-itemsAfterDate("15");
-
-// function costPerCategory() {
 //   knexInstance
-//     .select("category")
-//     .sum("price as total")
+//     .select("*")
 //     .from("shopping_list")
-//     .groupBy("category")
+//     .limit(limit)
+//     .offset(offset)
 //     .then((result) => {
-//       console.log("COST PER CATEGORY");
+//       console.log("page", { page });
 //       console.log(result);
 //     });
 // }
 
-// costPerCategory();
+// prodspage(2);
+
+// function itemsAfterDate(daysAgo) {
+//   knexInstance
+//     .select("*")
+
+//     .from("shopping_list")
+//     .where(
+//       "date_added",
+//       ">",
+//       knexInstance.raw(`now() - '?? days'::INTERVAL`, daysAgo)
+//     )
+
+//     .then((result) => {
+//       console.log(result);
+//     });
+// }
+
+// itemsAfterDate("15");
+
+function costPerCategory() {
+  knexInstance
+    .select("category")
+    .sum("price as total")
+    .from("shopping_list")
+    .groupBy("category")
+    .then((result) => {
+      console.log("COST PER CATEGORY");
+      console.log(result);
+    });
+}
+
+costPerCategory();
