@@ -2,10 +2,10 @@
 //  shopping list items. Also, make a ./test/shopping-list-service.spec.js
 //  file that tests the CRUD methods.
 
-const ShoppingService = {
-  getAllArticles() {
-    return "all the articles!!";
+const ShoppingListService = {
+  getAllItems(knex) {
+    return knex.select("*").from("shopping_list");
   },
 };
 
-module.exports = ShoppingService;
+module.exports = ShoppingListService;
