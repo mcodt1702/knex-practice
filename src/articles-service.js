@@ -1,3 +1,5 @@
+const knex = require("knex");
+
 const ArticlesService = {
   getAllArticles(knex) {
     return knex.select("*").from("blogful_articles");
@@ -13,8 +15,16 @@ const ArticlesService = {
       });
   },
 
-  getById(db, id) {
-    return db("blogful_articles").select("*").where({ id }).first();
+  getById(knex, id) {
+    return knex.from("blogful_articles").select("*").where("id", id).first();
+  },
+
+  deleteArticle(knex, id) {
+    return knex("blogful_articles").where({ id }).delete();
+  },
+
+  updateArticle(knex, id, newArticleFields) {
+    return knex("blogful_articles").where({ id }).update(newArticleFields);
   },
 };
 
