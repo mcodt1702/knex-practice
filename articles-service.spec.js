@@ -1,4 +1,4 @@
-const ArticlesService = require("../src/articles-service");
+const ArticlesService = require("./src/articles-service");
 const knex = require("knex");
 
 describe(`Articles service object`, function () {
